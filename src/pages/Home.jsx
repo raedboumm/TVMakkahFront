@@ -6,6 +6,16 @@ import PrayerTimes from "../components/PrayerTimes";
 import TrendingArticles from "../components/TrendingArticles";
 import "../styles/home.css";
 import ChannelInfo from "../components/ChannelInfo";
+import poster1 from "../assets/episode/post1.png";
+import poster2 from "../assets/episode/poste2.png";
+import poster3 from "../assets/episode/poste3.png";
+import poster4 from "../assets/episode/poste4.png";
+import poster5 from "../assets/episode/post5.png";3
+
+
+
+
+import hq from "../assets/episode/resize1.png"
 
 const Home = () => {
   const [featuredArticles, setFeaturedArticles] = useState([]);
@@ -156,7 +166,7 @@ const Home = () => {
                       slug: 'hajj-season-1446-start',
                       title_ar: 'خصائص البلد الحرام 08 هدى للعالمين | قناة مكة',
                       summary_ar: 'حلقة تتناول أبرز خصائص البلد الحرام ودوره كقيام للناس من منظور شرعي وروحاني.',
-                      image_url: 'https://i.ytimg.com/an_webp/b5XpuE6nlC4/mqdefault_6s.webp?du=3000&sqp=CNatr8gG&rs=AOn4CLBNVc-p-Z3p58ntIFQPT3K_OmI8lg',
+                      image_url: 'https://i.ytimg.com/vi/vDs_ab_J96I/hqdefault.jpg?sqp=-oaymwE2CNACELwBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIF4oTjAP&rs=AOn4CLB8oAC6mzG2Z-Y7J6Dfa1Qgyu0vCA',
                       category_name_ar: 'الحج والعمرة',
                       category_slug: 'hajj-umrah',
                       is_breaking: 1,
@@ -205,42 +215,47 @@ const Home = () => {
             episode: "حلقة 12 - أصوات من المسجد الحرام",
             time: "28 دقيقة",
             youtube: "https://www.youtube.com/watch?v=ccV974FRPI8&list=PLSG0qi3h4n37Q_TYX51GDk691TqaRvHHV",
-            image: "https://i.ytimg.com/vi/ccV974FRPI8/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLBaxr6FmuRgLGdlmKROVNMx486iRQ"
+            image1: poster1,
+            image2: "https://i.ytimg.com/vi/ccV974FRPI8/mqdefault.jpg"
           },
           {
-            program: "خصائص البلد الحرام 05 قبلة للعالمين | قناة مكة",
-            episode: "غزوة بدر – الدروس والعبر",
+            program: "أول من سكن مكة | مكة المكان | المكرمة | قناة مكة",
+            episode: "برنامج المكرمة واجهة إعلامية واسعة للتعريف بمكة المكرمة وكعبتها المشرفة وآياتها البينات وخصائصها الباهرات ورجالها العظام وتاريخها المجيد ومن بعث فيها من الرسل وما نزل بها من الكتب وما أودع الله فيها من الهدى والفضل",
             time: "34 دقيقة",
-            youtube: "https://www.youtube.com/watch?v=CPFkAbK5SfU",
-            image: "https://i.ytimg.com/an_webp/CPFkAbK5SfU/mqdefault_6s.webp?du=3000&sqp=CPumr8gG&rs=AOn4CLD3rR7HJaLPPOvRCsFLDqt9Dt_TMA"
+            youtube: "https://www.youtube.com/watch?v=qKS9sC3nl_c&list=PLSG0qi3h4n36JTbcxMZVpxW-GPyb1dLhI",
+            image1: poster2,
+            image2: "https://i.ytimg.com/vi/kDhScAcGyVM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAnvyNXLmzg6LqaP44iY64QOJQ7NQ"
           },
           {
             program: "الاربعون المكية 39 وفد الله | قناة مكة",
             episode: "باب الطهارة – الفتاوى الشائعة",
             time: "22 دقيقة",
             youtube: "https://www.youtube.com/watch?v=TKUcUAecRtI",
-            image: "https://i.ytimg.com/an_webp/8DicPXr_Mms/mqdefault_6s.webp?du=3000&sqp=COjgrsgG&rs=AOn4CLDf3wmm0RHIMe55FB9o5Uc7L5xJ1Q"
+            image1: poster3,
+            image2: "https://i.ytimg.com/vi/vDs_ab_J96I/hqdefault.jpg?sqp=-oaymwE2CNACELwBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIF4oTjAP&rs=AOn4CLB8oAC6mzG2Z-Y7J6Dfa1Qgyu0vCA"
           },
           {
             program: "أطهر انسان | قناة مكة",
             episode: "مولد الرسول ﷺ – البداية المباركة",
             time: "30 دقيقة",
             youtube: "https://www.youtube.com/watch?v=5j1Vt9M2eo0",
-            image: "https://i.ytimg.com/vi/5j1Vt9M2eo0/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGFsgYChlMA8=&rs=AOn4CLD_dfoEZp7cLBTgKA_DoW_myLn4iQ"
+            image1: poster4,
+            image2: "https://i.ytimg.com/vi/kdZVmYqdN-M/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDFLZ62M3di-azXvBPz0U2ehvuTVg"
           },
-              {
-            program: "ركنان | قناة مكة",
-            episode: "باب الطهارة – الفتاوى الشائعة",
+          {
+            program: "حارات مكة القديمة | قناة مكة",
+            episode: "برنامج المكرمة واجهة إعلامية واسعة للتعريف بمكة المكرمة",
             time: "22 دقيقة",
-            youtube: "https://www.youtube.com/watch?v=yYeQf-MaEWQ",
-            image: "https://i.ytimg.com/vi/yYeQf-MaEWQ/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGGUgXChRMA8=&rs=AOn4CLBdCWkYb9qa7ix1IqCBGJDoBp5icA"
+            youtube: "https://www.youtube.com/watch?v=kdZVmYqdN-M&list=PLSG0qi3h4n342_0h_gSjHvUzQAmnpD2Ik&index=1",
+            image1: poster5,
+            image2: "https://i.ytimg.com/vi/pVvkKzvWWBQ/hqdefault.jpg?sqp=-oaymwE2CNACELwBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhyIGIoKzAP&rs=AOn4CLB1OW9fLilwdQjGq1bJZZkbKd8omg"
           },
         ];
 
         const C = React.lazy(() => import('../components/ProgramEpisodes.jsx'));
         return (
           <React.Suspense fallback={null}>
-            <C title="أحدث  السلاسل" episodes={episodes} />
+            <C title="لقاءات مباشرة" episodes={episodes} />
           </React.Suspense>
         );
       })()}

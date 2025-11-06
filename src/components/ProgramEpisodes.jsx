@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import "../styles//ProgramEpisodes.css";
+import "../styles/videoCard.css";
 
 const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 5000 }) => {
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
   const SLIDE_MS = 450;
+  const [isOpen, setIsOpen] = useState(false);
+  const [playerSrc, setPlayerSrc] = useState(null);
+  const [playerType, setPlayerType] = useState(null); // 'youtube' | 'video' | 'iframe'
 
   const safeEpisodes = useMemo(() => (Array.isArray(episodes) ? episodes.filter(Boolean) : []), [episodes]);
   const len = safeEpisodes.length;
@@ -46,6 +51,52 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
     return () => clearTimeout(t);
   }, [isSliding]);
 
+  const getYouTubeId = (url = "") => {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+      if (u.hostname.includes("youtube.com")) return u.searchParams.get("v");
+    } catch {}
+    return null;
+  };
+
+  const getYouTubeEmbed = (url = "") => {
+    const id = getYouTubeId(url);
+    if (!id) return null;
+    return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+  };
+
+  const handlePlay = (e, ep) => {
+    if (e) e.preventDefault();
+    if (!ep?.youtube) return;
+    const ytEmbed = getYouTubeEmbed(ep.youtube);
+    if (ytEmbed) {
+      setPlayerType("youtube");
+      setPlayerSrc(ytEmbed);
+    } else if (/(\.mp4|\.webm|\.ogg)(\?|$)/i.test(ep.youtube)) {
+      setPlayerType("video");
+      setPlayerSrc(ep.youtube);
+    } else {
+      setPlayerType("iframe");
+      setPlayerSrc(ep.youtube);
+    }
+    setIsOpen(true);
+  };
+
+  const closePlayer = () => {
+    setIsOpen(false);
+    setPlayerSrc(null);
+    setPlayerType(null);
+  };
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape" && isOpen) closePlayer();
+    };
+    if (isOpen) document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen]);
+
   return (
     <div className="episodes-wrapper">
       <h2 className="section-title">  <span className="title-bar"></span>{title}</h2>
@@ -56,12 +107,21 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
             key={i}
             className="episode-card"
             href={ep.youtube}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={(e) => handlePlay(e, ep)}
           >
             <div className="episode-image">
-              <img className="poster" src={ep.imagePoster || ep.image} alt={ep.program} loading="lazy" />
-              <img className="wide" src={ep.imageWide || ep.image} alt={ep.program} loading="lazy" />
+              <img
+                className="img-default"
+                src={ep.image1 || ep.imagePoster || ep.image}
+                alt={ep.program}
+                loading="lazy"
+              />
+              <img
+                className="img-hover"
+                src={ep.image2 || ep.image1 || ep.imageWide || ep.image}
+                alt=""
+                loading="lazy"
+              />
             </div>
 
             <div className="episode-hover">
@@ -70,7 +130,11 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
               <p className="ep-time">{ep.time}</p>
 
               <div className="ep-actions">
-                <button className="ep-btn primary">
+                <button
+                  className="ep-btn primary"
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); handlePlay(e, ep); }}
+                >
                   <i className="fas fa-play"></i> مشاهدة
                 </button>
               </div>
@@ -79,6 +143,42 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
           </a>
         ))}
       </div>
+
+      {isOpen
+        ? createPortal(
+          <div className="video-modal" onClick={closePlayer} role="dialog" aria-modal="true">
+            <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
+              <button className="video-modal-close" onClick={closePlayer} aria-label="Close video">×</button>
+              <div className="video-player-wrapper">
+                {playerType === "youtube" && (
+                  <iframe
+                    title={"episode-player"}
+                    src={playerSrc}
+                    frameBorder="0"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
+                )}
+
+                {playerType === "video" && (
+                  <video src={playerSrc} controls autoPlay playsInline />
+                )}
+
+                {playerType === "iframe" && (
+                  <iframe
+                    title={"episode-player"}
+                    src={playerSrc}
+                    frameBorder="0"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
+                )}
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+        : null}
 
       <div
         className="episodes-pagination dots"
