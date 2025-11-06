@@ -73,9 +73,9 @@
   opacity: .9;           /* like text-gray-400 on dark */
   line-height: 1.8;      /* leading-relaxed */
   margin: .25rem 0;
-    direction: ltr;
-    text-align: right;
-    font-size: 13px;
+  direction: ltr;
+  text-align: right;
+  font-size:13px;
 }
 .footer__text i {
   margin-left: 20px;
@@ -88,6 +88,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  font-size:13px;
 }
 
 .footer__link {

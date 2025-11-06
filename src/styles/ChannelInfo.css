@@ -6,9 +6,8 @@
     background: #dbcbb1;
     border-radius: 11px;
     margin-top: 67px;
-    padding: 29px 25px;
+    padding: 32px 25px;
     box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
-    min-height: 406px;
 }
 
 .channelInfo-title {
@@ -49,7 +48,9 @@
     text-align: right;
     white-space: nowrap;
     margin-right: .1rem;
-    font-weight: 600
+    font-weight: 600;
+    font-size:15px;
+
 }
 
 .channelInfo-value {
