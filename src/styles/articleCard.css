@@ -304,3 +304,23 @@
 i.fas,i.far,i.fab {
     vertical-align: middle
 }
+
+/* نعمل reset للعداد داخل صندوق "الأكثر مشاهدة" */
+.most-viewed {
+  counter-reset: mv;
+}
+
+/* نخبّي الرقم الأصلي (1,2,3) ونبدّلو بمخرجة الـcounter */
+.most-viewed .rank {
+  color: transparent;         /* ما يمسّش الlayout */
+  position: relative;
+}
+
+/* نعرض ١،٢،٣... بصيغة Arabic-Indic */
+.most-viewed .rank::after {
+  counter-increment: mv;
+  content: counter(mv, arabic-indic);
+  color: #d4af37;
+  font-size: 1.4rem;
+  font-weight: 700;
+}

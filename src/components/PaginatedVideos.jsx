@@ -7,7 +7,7 @@ class CardBoundary extends React.Component {
     this.state = { hasError: false };
   }
   static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch() {}
+  componentDidCatch() { }
   render() { return this.state.hasError ? null : this.props.children; }
 }
 
@@ -16,7 +16,26 @@ const PaginatedVideos = ({ videos = [], pageSize = 4, title = 'أحدث الفي
   const [index, setIndex] = useState(0); // start index of the visible window
   const [prevIndex, setPrevIndex] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
+  const [gridSize, setGridSize] = useState(4);
   const SLIDE_MS = 450;
+
+  // Helper function to get grid size based on screen width
+  const getGridSize = () => {
+    return (window.innerWidth < 640) ? 1 :
+      (window.innerWidth < 900) ? 2 :
+        (window.innerWidth < 1200) ? 3 : 4;
+  };
+
+  // Update grid size on mount and resize
+  useEffect(() => {
+    const updateGridSize = () => {
+      setGridSize(getGridSize());
+    };
+
+    updateGridSize();
+    window.addEventListener('resize', updateGridSize);
+    return () => window.removeEventListener('resize', updateGridSize);
+  }, []);
 
   const safeVideos = useMemo(() => (Array.isArray(videos) ? videos.filter(Boolean) : []), [videos]);
   const len = safeVideos.length;
@@ -39,7 +58,7 @@ const PaginatedVideos = ({ videos = [], pageSize = 4, title = 'أحدث الفي
         }
       });
       if (touched && typeof window.dispatchEvent === 'function') {
-        try { window.dispatchEvent(new CustomEvent('videosCacheUpdated')); } catch (_) {}
+        try { window.dispatchEvent(new CustomEvent('videosCacheUpdated')); } catch (_) { }
       }
     }
   }, [safeVideos]);
@@ -48,14 +67,14 @@ const PaginatedVideos = ({ videos = [], pageSize = 4, title = 'أحدث الفي
     const src = safeVideos;
     const l = src.length;
     if (l === 0) return [];
-    if (l <= pageSize) return src;
+    if (l <= gridSize) return src;
     const items = [];
-    for (let i = 0; i < pageSize; i++) items.push(src[(start + i) % l]);
+    for (let i = 0; i < gridSize; i++) items.push(src[(start + i) % l]);
     return items;
   };
 
-  const prevItems = useMemo(() => makeWindow(prevIndex), [prevIndex, pageSize, safeVideos]);
-  const currItems = useMemo(() => makeWindow(index), [index, pageSize, safeVideos]);
+  const prevItems = useMemo(() => makeWindow(prevIndex), [prevIndex, gridSize, safeVideos]);
+  const currItems = useMemo(() => makeWindow(index), [index, gridSize, safeVideos]);
 
   useEffect(() => {
     // Clamp index when list changes
@@ -95,7 +114,7 @@ const PaginatedVideos = ({ videos = [], pageSize = 4, title = 'أحدث الفي
             style={{ '--slide-ms': `${SLIDE_MS}ms` }}
           >
             <div className="slider-panel">
-             
+
             </div>
             <div className="slider-panel">
               <div className="grid video-grid">

@@ -144,7 +144,8 @@
     border-radius: 8px;
     width: 100%;
     margin-bottom: 12px;
-    padding: 17px
+    padding: 10px 17px;
+    font-family: var(--font-arabic);
 }
 
 /* ====== Mobile Menu ====== */
@@ -194,4 +195,7 @@
     font-weight: 600;
     text-decoration: none;
     border-radius: 10px;
+}
+.fa-broadcast-tower{
+    color: rgb(231, 11, 11);
 }

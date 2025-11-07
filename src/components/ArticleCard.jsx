@@ -25,7 +25,7 @@ const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
         return (
             <div className="most-viewed">
                 <h3>   <span className="prayer-logoWrap">
-                    <img style={{ width: "70px", height: "70px", filter:"brightness(0)" }} src={logo} alt="makkah logo" />
+                    <img style={{ width: "70px", height: "70px", filter: "brightness(0)" }} src={logo} alt="makkah logo" />
                 </span> الأكثر مشاهدة</h3>
 
                 {mostViewed.length === 0 && (
@@ -38,10 +38,9 @@ const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
                     const desc = item?.description_ar || item?.summary_ar || fromCache || '—';
                     return (
                         <div key={item.id} className="most-viewed-item">
-                            <span className="rank">{i + 1}</span>
 
                             <div className="text">
-                                <p className="title">{item.title_ar}</p>
+                                <p className="title"><span className="rank">{i + 1}</span>{ item.title_ar}</p>
                                 <p
                                     className="desc"
                                     style={{

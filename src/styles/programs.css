@@ -13,9 +13,17 @@
 }
 
 .programs-title i {
-    color: var(--makkah-gold)
+    color: var(--makkah-gold);
 }
-
+h1.programs-title i {
+    padding-left: 15px;
+    display: inline-block;
+    color: #d4af37;
+    
+}
+.programs-title i:before {
+    font-size: 22px;
+}
 .program-card {
     cursor: pointer;
     background: #fff;

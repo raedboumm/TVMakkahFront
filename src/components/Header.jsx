@@ -19,7 +19,7 @@ const Header = () => {
     { name: "الرئيسية", page: "/tv/", icon: "fa-home" },
     { name: "أخبار", page: "/news", icon: "fa-newspaper" },
     { name: "فيديو", page: "/videos", icon: "fa-play-circle" },
-    { name: "بث مباشر", page: "/live", icon: "fa-broadcast-tower" },
+    { name: "بث مباشر", page: "/live", icon: "fa-broadcast-tower", },
     { name: "برامج", page: "/programs", icon: "fa-tv" },
     { name: "الحج والعمرة", page: "/hajj", icon: "fa-kaaba" },
   ];

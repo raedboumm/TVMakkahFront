@@ -7,10 +7,29 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
+  const [gridSize, setGridSize] = useState(4);
   const SLIDE_MS = 450;
   const [isOpen, setIsOpen] = useState(false);
   const [playerSrc, setPlayerSrc] = useState(null);
   const [playerType, setPlayerType] = useState(null); // 'youtube' | 'video' | 'iframe'
+
+  // Helper function to get grid size based on screen width
+  const getGridSize = () => {
+    return (window.innerWidth < 650) ? 1 :
+      (window.innerWidth < 900) ? 2 :
+        (window.innerWidth < 1200) ? 3 : 4;
+  };
+
+  // Update grid size on mount and resize
+  useEffect(() => {
+    const updateGridSize = () => {
+      setGridSize(getGridSize());
+    };
+
+    updateGridSize();
+    window.addEventListener('resize', updateGridSize);
+    return () => window.removeEventListener('resize', updateGridSize);
+  }, []);
 
   const safeEpisodes = useMemo(() => (Array.isArray(episodes) ? episodes.filter(Boolean) : []), [episodes]);
   const len = safeEpisodes.length;
@@ -19,13 +38,13 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
     const src = safeEpisodes;
     const l = src.length;
     if (l === 0) return [];
-    if (l <= pageSize) return src;
+    if (l <= gridSize) return src;
     const items = [];
-    for (let i = 0; i < pageSize; i++) items.push(src[(start + i) % l]);
+    for (let i = 0; i < gridSize; i++) items.push(src[(start + i) % l]);
     return items;
   };
 
-  const currItems = useMemo(() => makeWindow(index), [index, pageSize, safeEpisodes]);
+  const currItems = useMemo(() => makeWindow(index), [index, gridSize, safeEpisodes]);
 
   useEffect(() => {
     setIndex((i) => (len === 0 ? 0 : Math.min(Math.max(0, i), len - 1)));
@@ -56,7 +75,7 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
       const u = new URL(url);
       if (u.hostname.includes("youtu.be")) return u.pathname.slice(1);
       if (u.hostname.includes("youtube.com")) return u.searchParams.get("v");
-    } catch {}
+    } catch { }
     return null;
   };
 

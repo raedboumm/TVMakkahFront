@@ -200,3 +200,86 @@ p  { margin: 0 0 12px; color: var(--text); }
     font-size: 15px;
     margin-bottom: 15px;
 }
+@media(max-width:1200px){
+.logo-box img {
+    max-height: 85px;
+}
+.nav-link { 
+    font-size: 13px;
+}
+.hero-grid {
+    grid-template-columns: 60% 1fr; 
+}
+.news-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+h3.channelInfo-title {
+    font-size: 20px;
+}
+h3.prayer-title {
+    font-size: 14px;
+}
+.channelInfo-value { 
+    font-size: 14px; 
+}
+.episodes-wrapper { 
+    padding: 0 50px !important;
+}
+}
+@media(max-width:1024){
+.episode-hover { 
+    height: 75%;
+    max-height: 80%;
+}
+.prayer-box { 
+    margin-top: 0; 
+}
+.ep-program { 
+    font-size: 11px; 
+}
+.ep-title { 
+    font-size: 8px;
+}
+.ep-btn { 
+    padding: 4px 10px;
+    font-size: 10px; 
+}
+.ep-btn i { 
+    margin-top: -3px;
+}
+}
+@media(max-width:980px){     
+  .prayer-box { 
+        margin-top: 10px;
+    } }
+@media(max-width:767px){
+.grid.hero-grid iframe {
+    height: 230px;
+}
+   .grid.hero-grid iframe {
+    height: 230px;
+}
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:480px){
+ .header-date {
+    font-size: 11px; 
+    gap: 10px;  
+    max-width: 40%;
+}
+span.header-date i {
+    margin-top: -3px;
+}
+.container.header-top-content {
+    padding: 0 15px;
+}
+.header-social a { 
+    margin: 0 5px 0; 
+}
+.channelInfo-box { 
+        display: none;
+    }
+}
