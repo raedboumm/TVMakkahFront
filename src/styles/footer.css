@@ -148,5 +148,25 @@
 .footer__bottom p {
   color: var(--makkah-white);
   opacity: .9;
+  font-size: 12px;
 }
 
+@media(max-width:480px){
+ul.footer__links {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+}
+
+.footer__grid {
+    max-width: 400px;
+    padding: 0 10px 40px;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+p.footer__text {
+    text-align: justify;
+    direction: rtl
+}
+}

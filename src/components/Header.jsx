@@ -16,9 +16,9 @@ const Header = () => {
   const [headerHeight, setHeaderHeight] = useState(0);
 
   const menuItems = [
-    { name: "الرئيسية", page: "/tv/", icon: "fa-home" },
+    { name: "الرئيسية", page: "/", icon: "fa-home" },
     { name: "أخبار", page: "/news", icon: "fa-newspaper" },
-    { name: "فيديو", page: "/videos", icon: "fa-play-circle" },
+    { name: "فيديوهات", page: "/videos", icon: "fa-play-circle" },
     { name: "بث مباشر", page: "/live", icon: "fa-broadcast-tower", },
     { name: "برامج", page: "/programs", icon: "fa-tv" },
     { name: "الحج والعمرة", page: "/hajj", icon: "fa-kaaba" },
@@ -123,11 +123,11 @@ const Header = () => {
               <i className="fa-regular fa-calendar"></i> {dateStr}
             </span>
             <div className="header-social">
-              <a href="https://www.tiktok.com/@makkahtv.tv"><i className="fab fa-tiktok"></i></a>
-              <a href="https://www.youtube.com/MakkahTV"><i className="fab fa-youtube"></i></a>
-              <a href="https://www.instagram.com/makkahtv/"><i className="fab fa-instagram"></i></a>
-              <a href="https://x.com/MakkahTV"><i className="fab fa-x"></i></a>
-              <a href="https://www.facebook.com/MakkahTV"><i className="fab fa-facebook"></i></a>
+              <a href="https://www.tiktok.com/@makkahtv.tv" target="_blank" ><i className="fab fa-tiktok"></i></a>
+              <a href="https://www.youtube.com/MakkahTV" target="_blank" ><i className="fab fa-youtube"></i></a>
+              <a href="https://www.instagram.com/makkahtv/" target="_blank" ><i className="fab fa-instagram"></i></a>
+              <a href="https://x.com/MakkahTV" target="_blank" ><i className="fab fa-x"></i></a>
+              <a href="https://www.facebook.com/MakkahTV" target="_blank" ><i className="fab fa-facebook"></i></a>
             </div>
           </div>
         </div>
@@ -137,7 +137,7 @@ const Header = () => {
           {/* Logo */}
 
           <div className="logo-box">
-            <Link to="/tv">
+            <Link to="/">
               <img
                 ref={logoRef}
                 src={logo}

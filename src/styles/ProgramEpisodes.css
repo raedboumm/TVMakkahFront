@@ -201,7 +201,7 @@
 
 @media(max-width:340px){
 .episodes-wrapper { 
-  padding: 0 20px m !important;
+  padding: 0 20px !important;
 }
 }
 /* احترام users اللي مفعّلين Reduce Motion */

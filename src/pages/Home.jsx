@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import api from "../services/api";
 import ArticleCard from "../components/ArticleCard";
 import VideoCard from "../components/VideoCard";
 import PrayerTimes from "../components/PrayerTimes";
@@ -10,12 +9,11 @@ import poster1 from "../assets/episode/post1.png";
 import poster2 from "../assets/episode/poste2.png";
 import poster3 from "../assets/episode/poste3.png";
 import poster4 from "../assets/episode/poste4.png";
-import poster5 from "../assets/episode/post5.png";3
+import poster5 from "../assets/episode/post5.png";
 
 
 
 
-import hq from "../assets/episode/resize1.png"
 
 const Home = () => {
   const [featuredArticles, setFeaturedArticles] = useState([]);
@@ -26,46 +24,193 @@ const Home = () => {
   const [mostViewed, setMostViewed] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Static featured articles
+  const staticFeaturedArticles = [
+    {
+      id: 1,
+      title_ar: "البث المباشر من المسجد الحرام",
+      summary_ar: "متابعة مباشرة للصلوات والشعائر من الحرم المكي الشريف",
+      image_url: "https://makkahlive.net/images/MakkahLiveCover.jpg",
+      category_name: "بث مباشر",
+      publish_date: "2024-01-15",
+      view_count: 2450,
+      featured: true
+    },
+    {
+      id: 2,
+      title_ar: "افتتاح مشروع توسعة المسجد الحرام",
+      summary_ar: "أعلنت الرئاسة العامة لشؤون المسجد الحرام عن افتتاح المرحلة الأولى من التوسعة",
+      image_url: "https://i.ytimg.com/vi/lhwurDCEss4/hqdefault.jpg",
+      category_name: "أخبار",
+      publish_date: "2024-01-14",
+      view_count: 180,
+      featured: true
+    },
+
+  ];
+
+  // Static articles
+  const staticArticles = [
+    {
+      id: 4,
+      title_ar: "برامج توعوية للحجاج بعدة لغات",
+      summary_ar: "أطلقت وزارة الحج والعمرة برامج توعوية شاملة",
+      image_url: "https://i.ytimg.com/vi/QlasJcax37k/hqdefault.jpg",
+      category_name: "حج وعمرة",
+      publish_date: "2024-01-12",
+      view_count: 4500
+    },
+    {
+      id: 5,
+      title_ar: "تطوير خدمات الإفتاء في الحرم",
+      summary_ar: "تم تطوير مركز الإفتاء في المسجد الحرام",
+      image_url: "https://i.ytimg.com/vi/hE9VDhUDT-4/hqdefault.jpg",
+      category_name: "أخبار",
+      publish_date: "2024-01-11",
+      view_count: 380
+    }
+  ];
+
+  // Static videos
+  const staticVideos = [
+    {
+      id: 1,
+      title_ar: "صلاة التراويح من المسجد الحرام",
+      description_ar: "صلاة التراويح المباشرة من الحرم المكي",
+      thumbnail_url: "https://i.ytimg.com/vi/lhwurDCEss4/hqdefault.jpg",
+      youtube_id: "lhwurDCEss4",
+      video_url: "https://www.youtube.com/watch?v=lhwurDCEss4",
+      duration: 3420,
+      view_count: 1250,
+      publish_date: "2024-01-20",
+      type_name: "صلاة"
+    },
+    {
+      id: 2,
+      title_ar: "خطبة الجمعة من مكة المكرمة",
+      description_ar: "خطبة الجمعة المباشرة من المسجد الحرام",
+      thumbnail_url: "https://i.ytimg.com/vi/vDs_ab_J96I/hqdefault.jpg",
+      youtube_id: "vDs_ab_J96I",
+      video_url: "https://www.youtube.com/watch?v=vDs_ab_J96I",
+      duration: 2640,
+      view_count: 980,
+      publish_date: "2024-01-19",
+      type_name: "خطبة"
+    },
+    {
+      id: 3,
+      title_ar: "برنامج نور القرآن",
+      description_ar: "برنامج يومي لتفسير القرآن الكريم",
+      thumbnail_url: "https://i.ytimg.com/vi/QlasJcax37k/hqdefault.jpg",
+      youtube_id: "QlasJcax37k",
+      video_url: "https://www.youtube.com/watch?v=QlasJcax37k",
+      duration: 1800,
+      view_count: 870,
+      publish_date: "2024-01-18",
+      type_name: "برنامج"
+    },
+    {
+      id: 4,
+      title_ar: "في رحاب الحرم",
+      description_ar: "جولات حصرية داخل المسجد الحرام",
+      thumbnail_url: "https://i.ytimg.com/vi/hE9VDhUDT-4/hqdefault.jpg",
+      youtube_id: "hE9VDhUDT-4",
+      video_url: "https://www.youtube.com/watch?v=hE9VDhUDT-4",
+      duration: 2100,
+      view_count: 760,
+      publish_date: "2024-01-17",
+      type_name: "برنامج"
+    },
+    {
+      id: 5,
+      title_ar: "مناسك الحج والعمرة",
+      description_ar: "شرح تفصيلي لمناسك الحج والعمرة",
+      thumbnail_url: "https://i.ytimg.com/vi/WIZ8I4pxqQA/hqdefault.jpg",
+      youtube_id: "WIZ8I4pxqQA",
+      video_url: "https://www.youtube.com/watch?v=WIZ8I4pxqQA",
+      duration: 2520,
+      view_count: 650,
+      publish_date: "2024-01-16",
+      type_name: "تعليمي"
+    },
+    {
+      id: 6,
+      title_ar: "أذان الفجر من الحرم",
+      description_ar: "أذان الفجر المباشر من المسجد الحرام",
+      thumbnail_url: "https://i.ytimg.com/vi/dGY1RVobDPU/hqdefault.jpg",
+      youtube_id: "dGY1RVobDPU",
+      video_url: "https://www.youtube.com/watch?v=dGY1RVobDPU",
+      duration: 1320,
+      view_count: 540,
+      publish_date: "2024-01-15",
+      type_name: "أذان"
+    },
+    {
+      id: 7,
+      title_ar: "حديث الروح",
+      description_ar: "برنامج روحاني يتناول القصص الإيمانية",
+      thumbnail_url: "https://i.ytimg.com/vi/qKS9sC3nl_c/hqdefault.jpg",
+      youtube_id: "qKS9sC3nl_c",
+      video_url: "https://www.youtube.com/watch?v=qKS9sC3nl_c",
+      duration: 1680,
+      view_count: 480,
+      publish_date: "2024-01-14",
+      type_name: "برنامج"
+    },
+    {
+      id: 8,
+      title_ar: "لقاء مع علماء الأمة",
+      description_ar: "حوارات مباشرة مع كبار العلماء",
+      thumbnail_url: "https://i.ytimg.com/vi/BOk9o1GpTUo/hqdefault.jpg",
+      youtube_id: "BOk9o1GpTUo",
+      video_url: "https://www.youtube.com/watch?v=BOk9o1GpTUo",
+      duration: 1920,
+      view_count: 420,
+      publish_date: "2024-01-13",
+      type_name: "لقاء"
+    }
+  ];
+
+  // Static most viewed
+  const staticMostViewed = [
+    {
+      id: 1,
+      title_ar: "صلاة التراويح من المسجد الحرام",
+      view_count: 1250
+    },
+    {
+      id: 2,
+      title_ar: "خطبة الجمعة من مكة المكرمة",
+      view_count: 980
+    },
+    {
+      id: 3,
+      title_ar: "تلاوة خاشعة للشيخ السديس",
+      view_count: 870
+    },
+    {
+      id: 4,
+      title_ar: "برنامج في رحاب الحرم",
+      view_count: 7600
+    }
+  ];
+
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async (page = 1) => {
     setLoading(true);
-    try {
-      const [
-        featuredRes,
-        articlesRes,
-        videosRes,
-        mostViewedRes
-      ] = await Promise.all([
-        api.get("/articles?featured=true&limit=3"),
-        api.get("/articles?limit=2"),
-        api.get(`/videos?page=${page}&limit=8`),
-        api.get("/videos/trending/most-viewed?limit=4"),
-      ]);
-
-      if (featuredRes?.success) setFeaturedArticles(featuredRes.data ?? []);
-      if (articlesRes?.success) setArticles(articlesRes.data ?? []);
-      if (videosRes?.success) {
-        setVideos(videosRes.data ?? []);
-        if (videosRes.pagination) {
-          setVideosPage(videosRes.pagination.page || 1);
-          setVideosTotalPages(videosRes.pagination.totalPages || 1);
-        }
-      }
-      if (mostViewedRes?.success) setMostViewed(mostViewedRes.data ?? []);
-
-    } catch (err) {
-      console.error("Error loading homepage data:", err);
-      // Optionally reset values to []
-      // setFeaturedArticles([]);
-      // setArticles([]);
-      // setVideos([]);
-      // setMostViewed([]);
-    } finally {
+    // Simulate loading delay
+    setTimeout(() => {
+      setFeaturedArticles(staticFeaturedArticles);
+      setArticles(staticArticles);
+      setVideos(staticVideos);
+      setMostViewed(staticMostViewed);
+      setVideosPage(1);
+      setVideosTotalPages(1);
       setLoading(false);
-    }
+    }, 300);
   };
 
   if (loading) return <p className="loading">جاري التحميل...</p>;
@@ -80,19 +225,141 @@ const Home = () => {
             {featuredArticles.map((article, i) =>
               i === 0 ? (
                 // ✅ Replace FIRST featured article ONLY with YouTube Live
-                <div key="yt-live" >
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src="https://www.youtube.com/embed/mF4VaH_er8A?si=rQGd6fT7uJyACmDh"
-                    title="YouTube live"
-                    frameBorder="0"
-                    loading="lazy"
+                <div
+                  key="yt-live"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Play live stream"
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    paddingTop: "56.25%", // 16:9
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    background: "#000",
+                  }}
+                  onKeyDown={async (ev) => {
+                    if (ev.key === "Enter" || ev.key === " ") {
+                      ev.preventDefault();
+                      ev.currentTarget.click();
+                    }
+                  }}
+                  onClick={async (ev) => {
+                    const wrapper = ev.currentTarget;
+                    if (wrapper.dataset.started) return; // prevent double init
+                    wrapper.dataset.started = "1";
 
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  ></iframe>
+                    const src = "https://media2.streambrothers.com:1936/8122/8122/playlist.m3u8";
+
+                    // Build <video> programmatically
+                    const video = document.createElement("video");
+                    Object.assign(video, {
+                      controls: true,
+                      autoplay: true,
+                      muted: true,
+                      playsInline: true,
+                    });
+                    Object.assign(video.style, {
+                      position: "absolute",
+                      inset: "0",
+                      width: "100%",
+                      height: "100%",
+                      // objectFit: "cover",
+                      display: "block",
+                      background: "#000",
+                    });
+
+                    // Replace thumbnail with the player
+                    wrapper.innerHTML = "";
+                    wrapper.appendChild(video);
+
+                    try {
+                      // Safari (native HLS)
+                      if (video.canPlayType("application/vnd.apple.mpegurl")) {
+                        video.src = src;
+                        await video.play().catch(() => { });
+                      } else {
+                        // Other browsers via hls.js
+                        const { default: Hls } = await import("hls.js");
+                        if (Hls.isSupported()) {
+                          const hls = new Hls();
+                          hls.loadSource(src);
+                          hls.attachMedia(video);
+                        } else {
+                          // Last-resort fallback
+                          video.src = src;
+                          await video.play().catch(() => { });
+                        }
+                      }
+                    } catch { }
+                  }}
+                >
+                  {/* Thumbnail */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundImage:
+                        "url('https://makkahlive.net/images/MakkahLiveCover.jpg')",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      filter: "brightness(0.8)",
+                    }}
+                  />
+
+                  {/* Play button */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      display: "grid",
+                      placeItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 78,
+                        height: 78,
+                        borderRadius: "50%",
+                        background: "rgba(255,255,255,0.9)",
+                        boxShadow: "0 8px 30px rgba(0,0,0,.25)",
+                        display: "grid",
+                        placeItems: "center",
+                      }}
+                    >
+                      <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path d="M8 5v14l11-7z" fill="black" />
+                      </svg>
+                    </div>
+
+                    {/* LIVE chip (optional) */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 12,
+                        right: 12,
+                        padding: "6px 10px",
+                        borderRadius: 999,
+                        background: "rgba(255,0,0,0.9)",
+                        color: "#fff",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        letterSpacing: 0.5,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Live
+                    </div>
+                  </div>
                 </div>
+
               ) : (
                 <ArticleCard key={article.id} index={i} mostViewed={mostViewed} article={article} featured />
               ))}
@@ -117,11 +384,11 @@ const Home = () => {
                     title_ar: 'تحديث في البث المباشر لقناة مكة',
                     summary_ar: 'تحسينات تقنية في جودة البث واستقرار الإرسال للمشاهدين حول العالم.',
                     image_url: 'https://makkahlive.net/images/MakkahLiveCover.jpg',
-                    category_name_ar: 'أخبار',
+                    category_name: 'أخبار',
                     category_slug: 'news',
                     is_breaking: 1,
                     view_count: 1242,
-                    created_at: '2025-01-05',
+                    publish_date: '2025-01-05',
                   },
                   {
                     id: 'channel-4',
@@ -129,11 +396,11 @@ const Home = () => {
                     title_ar: 'إطلاق تطبيق قناة مكة الجديد',
                     summary_ar: 'تطبيق جديد يتيح متابعة البث المباشر والمحتوى عند الطلب وإشعارات التنبيهات.',
                     image_url: 'https://yt3.googleusercontent.com/nK6NGlAkcQZKCRhS75Xq4UWUl9IhsedhL3vXwoG14wddcC0uw1D4DfyUclaZDr0wp4qLxBVs=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj',
-                    category_name_ar: 'أخبار',
+                    category_name: 'أخبار',
                     category_slug: 'news',
                     is_breaking: 1,
                     view_count: 1422,
-                    created_at: '2025-01-06',
+                    publish_date: '2025-01-06',
                   },
                 ];
                 return channelNews.map((article, i) => (
@@ -155,11 +422,11 @@ const Home = () => {
                       title_ar: 'خصائص البلد الحرام 06 قيام للناس | قناة مكة',
                       summary_ar: 'حلقة تتناول أبرز خصائص البلد الحرام ودوره كقيام للناس من منظور شرعي وروحاني.',
                       image_url: 'https://i.ytimg.com/vi/lhwurDCEss4/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGGUgVihHMA8=&rs=AOn4CLDbgn4eImg_UXJPZfO2DOrvTfwQuQ',
-                      category_name_ar: 'أخبار',
+                      category_name: 'أخبار',
                       category_slug: 'news',
                       is_breaking: 0,
                       view_count: 1425,
-                      created_at: '2025-01-03',
+                      publish_date: '2025-01-03',
                     },
                     {
                       id: 'channel-2',
@@ -167,11 +434,11 @@ const Home = () => {
                       title_ar: 'خصائص البلد الحرام 08 هدى للعالمين | قناة مكة',
                       summary_ar: 'حلقة تتناول أبرز خصائص البلد الحرام ودوره كقيام للناس من منظور شرعي وروحاني.',
                       image_url: 'https://i.ytimg.com/vi/vDs_ab_J96I/hqdefault.jpg?sqp=-oaymwE2CNACELwBSFXyq4qpAygIARUAAIhCGAFwAcABBvABAfgB_gmAAtAFigIMCAAQARhlIF4oTjAP&rs=AOn4CLB8oAC6mzG2Z-Y7J6Dfa1Qgyu0vCA',
-                      category_name_ar: 'الحج والعمرة',
+                      category_name: 'الحج والعمرة',
                       category_slug: 'hajj-umrah',
                       is_breaking: 1,
                       view_count: 456,
-                      created_at: '2025-01-04',
+                      publish_date: '2025-01-04',
                     },
                   ];
                   return channelNews.map((article, i) => (

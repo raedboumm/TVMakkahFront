@@ -1,27 +1,52 @@
 import React, { useEffect, useState } from "react";
 import "../styles/trending.css";
-import api from "../services/api";
 
 
 const TrendingArticles = ({ limit = 4, period = "week" }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchTrending = async () => {
-    try {
-      setLoading(true);
-      // fetch top videos by view count
-      const res = await api.get(`/videos/trending/most-viewed?limit=${limit}`);
-      if (res.success) setItems(res.data || []);
-    } catch (e) {
-      console.error("Trending fetch error:", e);
-    } finally {
-      setLoading(false);
+  // Static trending videos data
+  const staticTrendingVideos = [
+    {
+      id: 1,
+      title_ar: "صلاة التراويح من المسجد الحرام",
+      view_count: 1250
+    },
+    {
+      id: 2,
+      title_ar: "خطبة الجمعة من مكة المكرمة",
+      view_count: 9800
+    },
+    {
+      id: 3,
+      title_ar: "تلاوة خاشعة للشيخ السديس",
+      view_count: 8700
+    },
+    {
+      id: 4,
+      title_ar: "برنامج في رحاب الحرم",
+      view_count: 7600
+    },
+    {
+      id: 5,
+      title_ar: "مناسك الحج والعمرة",
+      view_count: 6500
+    },
+    {
+      id: 6,
+      title_ar: "أذان الفجر من الحرم المكي",
+      view_count: 5400
     }
-  };
+  ];
 
   useEffect(() => {
-    fetchTrending();
+    setLoading(true);
+    // Simulate loading delay
+    setTimeout(() => {
+      setItems(staticTrendingVideos.slice(0, limit));
+      setLoading(false);
+    }, 300);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit, period]);
 

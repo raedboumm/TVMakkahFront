@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import api from "../services/api";
 import ArticleCard from "../components/ArticleCard";
 import "../styles/news.css";
+import staticArticles from '../data/staticArticles';
 
 const NewsPage = () => {
   const [articles, setArticles] = useState([]);
@@ -9,18 +9,30 @@ const NewsPage = () => {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
 
+
   useEffect(() => {
     loadArticles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const loadArticles = async () => {
     setLoading(true);
-    const res = await api.get(`/articles?page=${page}&limit=12`);
-    if (res.success) {
-      setArticles(res.data);
-      setPagination(res.pagination);
-    }
-    setLoading(false);
+    // Simulate loading delay
+    setTimeout(() => {
+      const itemsPerPage = 12;
+      const startIndex = (page - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const paginatedArticles = staticArticles.slice(startIndex, endIndex);
+
+      setArticles(paginatedArticles);
+      setPagination({
+        page: page,
+        limit: itemsPerPage,
+        totalPages: Math.ceil(staticArticles.length / itemsPerPage),
+        total: staticArticles.length
+      });
+      setLoading(false);
+    }, 300);
   };
 
   if (loading) {

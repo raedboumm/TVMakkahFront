@@ -4,6 +4,7 @@
 *::after {
   box-sizing: border-box;
 }
+
 html, body, #root {
   height: 100%;
 }
@@ -200,6 +201,9 @@ p  { margin: 0 0 12px; color: var(--text); }
     font-size: 15px;
     margin-bottom: 15px;
 }
+main >.bg-white, .home-wrapper, main > .programs-wrapper {
+    padding-bottom: 50px
+}
 @media(max-width:1200px){
 .logo-box img {
     max-height: 85px;
@@ -269,7 +273,14 @@ h3.prayer-title {
     font-size: 11px; 
     gap: 10px;  
     max-width: 40%;
+    display: none;
+
 }
+.header-top-content {
+    justify-content: center;
+    align-items: center;
+}
+
 span.header-date i {
     margin-top: -3px;
 }
@@ -283,3 +294,4 @@ span.header-date i {
         display: none;
     }
 }
+

@@ -99,19 +99,19 @@ const Footer = () => {
               </p>
 
               <div className="footer__social">
-                <a href="https://www.facebook.com/makkahtv" className="socialBtn" aria-label="Facebook">
+                <a href="https://www.facebook.com/makkahtv" className="socialBtn" target="_blank" aria-label="Facebook">
                   <i className="fa-brands fa-facebook-f"></i>
                 </a>
-                <a href="https://twitter.com/makkahtv" className="socialBtn" aria-label="Twitter / X">
+                <a href="https://twitter.com/makkahtv" className="socialBtn" target="_blank" aria-label="Twitter / X">
                   <i className="fa-brands fa-x"></i>
                 </a>
-                <a href="https://www.youtube.com/makkahtv" className="socialBtn" aria-label="YouTube">
+                <a href="https://www.youtube.com/makkahtv" className="socialBtn" target="_blank" aria-label="YouTube">
                   <i className="fa-brands fa-youtube"></i>
                 </a>
-                <a href="https://www.instagram.com/makkahtv" className="socialBtn" aria-label="Instagram">
+                <a href="https://www.instagram.com/makkahtv" className="socialBtn" target="_blank" aria-label="Instagram">
                   <i className="fa-brands fa-instagram"></i>
                 </a>
-                <a href="https://www.tiktok.com/@makkahtv" className="socialBtn" aria-label="tiktok">
+                <a href="https://www.tiktok.com/@makkahtv" className="socialBtn" target="_blank" aria-label="tiktok">
                   <i className="fa-brands fa-tiktok"></i>
                 </a>
               </div>

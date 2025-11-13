@@ -80,8 +80,19 @@
     margin-bottom: 6px;
     padding: 3px 8px;
     font-size: 12px;
-    display: inline-block
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* space between icon and text */
 }
+
+/* small spacing for icons in category badges (handles RTL/LTR) */
+.video-category i {
+    /* put spacing after the icon regardless of text direction */
+    margin-inline-end: 6px;
+    vertical-align: middle;
+    font-size: 12px;
+}
+.video-category .video-category-text { vertical-align: middle; }
 
 .video-title {
     color: #222;
@@ -157,7 +168,7 @@
 
 /* On very tall screens limit height */
 .video-modal-content {
-    max-height: 85vh;
+    max-height: 89vh;
 }
 
 .video-modal-close {

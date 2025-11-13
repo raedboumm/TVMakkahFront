@@ -1,9 +1,18 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import "../styles/articleCard.css";
 import logo from "../assets/smallIcon.png"; // keep this path as you have it
 
 
 const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
+    // Normalize ids so channel-* items link to numeric ids (e.g. channel-2 -> 2)
+    const normalizeId = (id) => {
+        if (id === null || typeof id === 'undefined') return id;
+        const s = String(id);
+        const m = s.match(/^channel-(\d+)$/i);
+        if (m) return m[1];
+        return s;
+    };
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
         const date = new Date(dateStr);
@@ -40,7 +49,7 @@ const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
                         <div key={item.id} className="most-viewed-item">
 
                             <div className="text">
-                                <p className="title"><span className="rank">{i + 1}</span>{ item.title_ar}</p>
+                                <p className="title"><span className="rank">{i + 1}</span>{item.title_ar}</p>
                                 <p
                                     className="desc"
                                     style={{
@@ -72,7 +81,7 @@ const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
     ----------------------------------------*/
     if (featured) {
         return (
-            <div className="relative overflow-hidden rounded-lg shadow-lg card-hover cursor-pointer bg-white self-start">
+            <Link to={`/news/${normalizeId(article.id)}`} className="relative overflow-hidden rounded-lg shadow-lg card-hover cursor-pointer bg-white self-start" style={{ textDecoration: 'none' }}>
                 <div className="relative h-96">
                     <img src={article.image_url} alt={article.title_ar} className="w-full h-full object-cover" />
 
@@ -100,7 +109,7 @@ const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Link>
         );
     }
 
@@ -108,7 +117,7 @@ const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
       ✅ NORMAL Article Card
     ----------------------------------------*/
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+        <Link to={`/news/${normalizeId(article.id)}`} className="bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer" style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className="relative">
                 <img src={article.image_url} alt={article.title_ar} className="w-full h-48 object-cover" />
                 {article.is_breaking && (
@@ -136,7 +145,7 @@ const ArticleCard = ({ article, featured = false, index, mostViewed = [] }) => {
                     <span><i className="far fa-eye mr-1"></i> {article.view_count}</span>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import "../styles//ProgramEpisodes.css";
 import "../styles/videoCard.css";
@@ -33,6 +33,12 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
 
   const safeEpisodes = useMemo(() => (Array.isArray(episodes) ? episodes.filter(Boolean) : []), [episodes]);
   const len = safeEpisodes.length;
+
+  // touch/swipe refs
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const touchStartTime = useRef(0);
+  const didSwipe = useRef(false);
 
   const makeWindow = (start) => {
     const src = safeEpisodes;
@@ -102,6 +108,54 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
     setIsOpen(true);
   };
 
+  // Touch handlers for swipe navigation (mobile)
+  const handleTouchStart = (e) => {
+    const t = e.touches && e.touches[0];
+    if (!t) return;
+    touchStartX.current = t.clientX;
+    touchStartY.current = t.clientY;
+    touchStartTime.current = Date.now();
+    didSwipe.current = false;
+  };
+
+  const handleTouchEnd = (e) => {
+    // touchend doesn't have touches; use changedTouches
+    const t = e.changedTouches && e.changedTouches[0];
+    if (!t) return;
+    const dx = t.clientX - touchStartX.current;
+    const dy = t.clientY - touchStartY.current;
+    const dt = Date.now() - (touchStartTime.current || 0);
+
+    // require mostly horizontal movement, and a minimum distance
+    const absDx = Math.abs(dx);
+    const absDy = Math.abs(dy);
+    const minDistance = 50; // px
+    const maxVerticalRatio = 0.5; // horizontal must dominate
+
+    if (absDx > minDistance && absDx > absDy * (1 / maxVerticalRatio)) {
+      // it's a horizontal swipe
+      didSwipe.current = true;
+      if (dx < 0) {
+        // swipe left -> next
+        if (len > 0) {
+          setPrevIndex(index);
+          setIsSliding(true);
+          setIndex((i) => (i + 1) % len);
+        }
+      } else {
+        // swipe right -> prev
+        if (len > 0) {
+          setPrevIndex(index);
+          setIsSliding(true);
+          setIndex((i) => (i - 1 + len) % len);
+        }
+      }
+
+      // clear the didSwipe flag shortly after to allow normal clicks later
+      window.setTimeout(() => (didSwipe.current = false), 300);
+    }
+  };
+
   const closePlayer = () => {
     setIsOpen(false);
     setPlayerSrc(null);
@@ -120,13 +174,24 @@ const ProgramEpisodes = ({ title, episodes = [], pageSize = 4, autoIntervalMs = 
     <div className="episodes-wrapper">
       <h2 className="section-title">  <span className="title-bar"></span>{title}</h2>
 
-      <div className="episodes-grid">
+      <div
+        className="episodes-grid"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {currItems.map((ep, i) => (
           <a
             key={i}
             className="episode-card"
             href={ep.youtube}
-            onClick={(e) => handlePlay(e, ep)}
+            onClick={(e) => {
+              // if a swipe was just detected, prevent click navigation
+              if (didSwipe.current) {
+                e.preventDefault();
+                return;
+              }
+              handlePlay(e, ep);
+            }}
           >
             <div className="episode-image">
               <img

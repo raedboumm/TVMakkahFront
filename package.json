@@ -12,6 +12,8 @@
   "dependencies": {
     "adhan": "^4.4.3",
     "axios": "^1.12.2",
+    "dompurify": "^2.4.0",
+    "hls.js": "^1.6.14",
     "lucide-react": "^0.553.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

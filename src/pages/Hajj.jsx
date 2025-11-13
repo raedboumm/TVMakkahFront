@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import api from "../services/api";
 import ArticleCard from "../components/ArticleCard";
 import VideoCard from "../components/VideoCard";
 import "../styles/hajj.css"; // ✅ New CSS file
@@ -9,27 +8,128 @@ const HajjPage = () => {
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // Static Hajj & Umrah articles
+    const staticHajjArticles = [
+        {
+            id: 1,
+            title_ar: "مناسك الحج خطوة بخطوة",
+            summary_ar: "دليل شامل لجميع مناسك الحج من البداية حتى النهاية",
+            image_url: "https://i.ytimg.com/vi/lhwurDCEss4/hqdefault.jpg",
+            category_name: "حج وعمرة",
+            publish_date: "2024-01-15",
+            view_count: 178
+        },
+        {
+            id: 2,
+            title_ar: "أحكام العمرة وشروطها",
+            summary_ar: "شرح تفصيلي لأحكام وشروط العمرة",
+            image_url: "https://i.ytimg.com/vi/vDs_ab_J96I/hqdefault.jpg",
+            category_name: "حج وعمرة",
+            publish_date: "2024-01-14",
+            view_count: 1450
+        },
+        {
+            id: 3,
+            title_ar: "فضائل الحج والعمرة",
+            summary_ar: "الأحاديث النبوية في فضل الحج والعمرة",
+            image_url: "https://i.ytimg.com/vi/QlasJcax37k/hqdefault.jpg",
+            category_name: "حج وعمرة",
+            publish_date: "2024-01-13",
+            view_count: 1140
+        },
+        {
+            id: 4,
+            title_ar: "الأخطاء الشائعة في الحج",
+            summary_ar: "تعرف على الأخطاء الشائعة التي يقع فيها الحجاج وكيفية تجنبها",
+            image_url: "https://i.ytimg.com/vi/hE9VDhUDT-4/hqdefault.jpg",
+            category_name: "حج وعمرة",
+            publish_date: "2024-01-12",
+            view_count: 980
+        },
+        {
+            id: 5,
+            title_ar: "الإحرام وأنواعه",
+            summary_ar: "شرح أنواع الإحرام وأحكامه",
+            image_url: "https://i.ytimg.com/vi/WIZ8I4pxqQA/hqdefault.jpg",
+            category_name: "حج وعمرة",
+            publish_date: "2024-01-11",
+            view_count: 870
+        },
+        {
+            id: 6,
+            title_ar: "يوم عرفة وفضله",
+            summary_ar: "فضل يوم عرفة وأعمال هذا اليوم المبارك",
+            image_url: "https://i.ytimg.com/vi/dGY1RVobDPU/hqdefault.jpg",
+            category_name: "حج وعمرة",
+            publish_date: "2024-01-10",
+            view_count: 700
+        }
+    ];
+
+    // Static Hajj & Umrah videos
+    const staticHajjVideos = [
+        {
+            id: 1,
+            title_ar: "مناسك الحج - شرح مفصل",
+            description_ar: "شرح تفصيلي ومصور لجميع مناسك الحج",
+            thumbnail_url: "https://i.ytimg.com/vi/lhwurDCEss4/hqdefault.jpg",
+            youtube_id: "lhwurDCEss4",
+            video_url: "https://www.youtube.com/watch?v=pALGQ4AK30Y&t=1s",
+            duration: 2880,
+            view_count: 150,
+            publish_date: "2024-01-18",
+            type_name: "تعليمي"
+        },
+        {
+            id: 2,
+            title_ar: "طواف الإفاضة",
+            description_ar: "شرح طواف الإفاضة وأحكامه",
+            thumbnail_url: "https://i.ytimg.com/vi/vDs_ab_J96I/hqdefault.jpg",
+            youtube_id: "vDs_ab_J96I",
+            video_url: "https://www.youtube.com/watch?v=PJIQHmJMCmI",
+            duration: 1740,
+            view_count: 120,
+            publish_date: "2024-01-17",
+            type_name: "مناسك"
+        },
+        {
+            id: 3,
+            title_ar: "السعي بين الصفا والمروة",
+            description_ar: "كيفية السعي بين الصفا والمروة",
+            thumbnail_url: "https://i.ytimg.com/vi/QlasJcax37k/hqdefault.jpg",
+            youtube_id: "QlasJcax37k",
+            video_url: "https://www.youtube.com/watch?v=QlasJcax37k",
+            duration: 1620,
+            view_count: 9510,
+            publish_date: "2024-01-16",
+            type_name: "مناسك"
+        },
+        {
+            id: 4,
+            title_ar: "رمي الجمرات",
+            description_ar: "شرح مفصل لرمي الجمرات وأحكامه",
+            thumbnail_url: "https://i.ytimg.com/vi/hE9VDhUDT-4/hqdefault.jpg",
+            youtube_id: "hE9VDhUDT-4",
+            video_url: "https://www.youtube.com/watch?v=icJfRBOip0U",
+            duration: 1440,
+            view_count: 88,
+            publish_date: "2024-01-15",
+            type_name: "مناسك"
+        }
+    ];
+
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = async () => {
         setLoading(true);
-        try {
-            const articlesRes = await api.get("/articles?category=hajj-umrah&limit=6");
-            if (articlesRes?.success) setArticles(articlesRes.data ?? []);
-            else setArticles([]);
-
-            const videosRes = await api.get("/videos?category=hajj-umrah&limit=4");
-            if (videosRes?.success) setVideos(videosRes.data ?? []);
-            else setVideos([]);
-        } catch (err) {
-            console.error("loadData error:", err);
-            setArticles([]);
-            setVideos([]);
-        } finally {
+        // Simulate loading delay
+        setTimeout(() => {
+            setArticles(staticHajjArticles);
+            setVideos(staticHajjVideos);
             setLoading(false);
-        }
+        }, 300);
     };
 
     if (loading) {

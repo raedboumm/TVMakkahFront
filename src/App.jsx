@@ -13,10 +13,11 @@ import Videos from "./pages/Videos";
 import Live from "./pages/Live";
 import Programs from "./pages/Programs";
 import Hajj from "./pages/Hajj";
+import ArticleDetail from './pages/ArticleDetail';
 
 const App = () => {
   return (
-    <Router basename="/tv">
+    <Router>
       <div className="app">
         <ScrollToTop />
         <Header />
@@ -27,6 +28,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<ArticleDetail />} />
             <Route path="/videos" element={<Videos />} />
             <Route path="/live" element={<Live />} />
             <Route path="/programs" element={<Programs />} />

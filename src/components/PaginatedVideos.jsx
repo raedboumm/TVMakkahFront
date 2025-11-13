@@ -13,6 +13,8 @@ class CardBoundary extends React.Component {
 
 // Sliding window over provided videos: shows 4, advances by 1 with horizontal slide
 const PaginatedVideos = ({ videos = [], pageSize = 4, title = 'أحدث الفيديوهات', autoIntervalMs = 5000 }) => {
+  // Limit to top 8 videos only (business rule per request)
+  const limitedVideos = useMemo(() => (Array.isArray(videos) ? videos.slice(0, 8) : []), [videos]);
   const [index, setIndex] = useState(0); // start index of the visible window
   const [prevIndex, setPrevIndex] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
@@ -37,7 +39,8 @@ const PaginatedVideos = ({ videos = [], pageSize = 4, title = 'أحدث الفي
     return () => window.removeEventListener('resize', updateGridSize);
   }, []);
 
-  const safeVideos = useMemo(() => (Array.isArray(videos) ? videos.filter(Boolean) : []), [videos]);
+  // Work only with limited sanitized list
+  const safeVideos = useMemo(() => limitedVideos.filter(Boolean), [limitedVideos]);
   const len = safeVideos.length;
 
   // Publish a lightweight cache to reuse details (e.g., description_ar) in other widgets
